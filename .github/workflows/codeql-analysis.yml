@@ -57,8 +57,8 @@ jobs:
       run: |
         sudo apt-get update && sudo apt-get install wget software-properties-common
         pip install -Iv setuptools==47.3.1 distro wheel auditwheel==4.0.0
-        ./Update.sh
-        $(make PythonAPI) >/dev/null
+        ./Update.sh >/dev/null 2>&1
+        $(make PythonAPI) >/dev/null 2>&1
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
       with:
