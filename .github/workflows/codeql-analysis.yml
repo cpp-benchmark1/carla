@@ -29,25 +29,6 @@ jobs:
       with:
         languages: ${{ matrix.language }}
         build-mode: ${{ matrix.build-mode }}
-    - if: matrix.build-mode == 'manual'
-      shell: bash
-      run: |
-        sudo apt-get update &&
-        sudo apt-get install wget software-properties-common &&
-        sudo add-apt-repository ppa:ubuntu-toolchain-r/test &&
-        wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add
-        pip install --user setuptools &&
-        pip3 install --user -Iv setuptools==47.3.1 &&
-        pip install --user distro &&
-        pip3 install --user distro &&
-        pip install --user wheel &&
-        pip3 install --user wheel auditwheel==4.0.0
-        ./Update.sh
-        git clone --depth 1 -b carla https://github.com/CarlaUnreal/UnrealEngine.git ./UnrealEngine
-        cd ./UnrealEngine
-        ./Setup.sh && ./GenerateProjectFiles.sh && make
-        cd ..
-        make PythonAPI
     - name: Free disk space
       run: |
           sudo docker rmi $(docker image ls -aq) >/dev/null 2>&1 || true
@@ -71,6 +52,25 @@ jobs:
           sudo apt-get purge '~n ^dotnet' -f -y  || true
           sudo apt-get autoremove -y || true
           sudo apt-get autoclean -y || true
+    - if: matrix.build-mode == 'manual'
+      shell: bash
+      run: |
+        sudo apt-get update &&
+        sudo apt-get install wget software-properties-common &&
+        sudo add-apt-repository ppa:ubuntu-toolchain-r/test &&
+        wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add
+        pip install --user setuptools &&
+        pip3 install --user -Iv setuptools==47.3.1 &&
+        pip install --user distro &&
+        pip3 install --user distro &&
+        pip install --user wheel &&
+        pip3 install --user wheel auditwheel==4.0.0
+        ./Update.sh
+        git clone --depth 1 -b carla https://github.com/CarlaUnreal/UnrealEngine.git ./UnrealEngine
+        cd ./UnrealEngine
+        ./Setup.sh && ./GenerateProjectFiles.sh && make
+        cd ..
+        make PythonAPI
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
       with:
