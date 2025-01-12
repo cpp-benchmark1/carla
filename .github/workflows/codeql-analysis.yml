@@ -55,7 +55,8 @@ jobs:
     - if: matrix.build-mode == 'manual'
       shell: bash
       run: |
-        sudo apt-get install wget software-properties-common g++-10
+        sudo apt-get install wget software-properties-common g++-12
+        clang -v
         sudo add-apt-repository ppa:ubuntu-toolchain-r/test
         wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add
         pip install --upgrade pip
