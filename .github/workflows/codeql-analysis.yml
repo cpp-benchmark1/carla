@@ -61,6 +61,7 @@ jobs:
         pip install --upgrade pip
         pip install --user -Iv setuptools==47.3.1 distro wheel auditwheel==4.0.0
         sudo chmod +x Util/BuildTools/BuildUE4Plugins.sh
+        sudo chmod +x Util/BuildTools/Setup.sh
         make PythonAPI
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
