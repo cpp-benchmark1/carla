@@ -60,9 +60,6 @@ jobs:
         wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add
         pip install --upgrade pip
         pip install --user -Iv setuptools==47.3.1 distro wheel auditwheel==4.0.0
-        cd Unreal/CarlaUE4
-        ./Setup.sh && ./GenerateProjectFiles.sh && make
-        cd ../..
         make PythonAPI
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
