@@ -7,7 +7,7 @@ on:
 jobs:
   analyze:
     name: Analyze (${{ matrix.language }})
-    runs-on: 'ubuntu-24.04'
+    runs-on: 'ubuntu-22.04'
     permissions:
       security-events: write
       packages: read
@@ -55,10 +55,13 @@ jobs:
     - if: matrix.build-mode == 'manual'
       shell: bash
       run: |
-        sudo apt-add-repository "deb http://archive.ubuntu.com/ubuntu noble main universe" && sudo apt-get update
+        sudo apt-add-repository "deb http://archive.ubuntu.com/ubuntu focal main universe"
+        sudo apt-get update
+        sudo apt-get install build-essential clang-10 lld-10 g++-7 cmake ninja-build libvulkan1 python python3 python3-dev python3-pip libpng-dev libtiff5-dev libjpeg-dev tzdata sed curl unzip autoconf libtool rsync libxml2-dev git git-lfs
+        sudo update-alternatives --install /usr/bin/clang++ clang++ /usr/lib/llvm-10/bin/clang++ 180 &&
+        sudo update-alternatives --install /usr/bin/clang clang /usr/lib/llvm-10/bin/clang 180 &&
+        sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-7 180
         sudo add-apt-repository ppa:ubuntu-toolchain-r/test && wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add
-        sudo apt-get install --ignore-missing aptitude wget software-properties-common g++-10 build-essential cmake ninja-build libvulkan1 python3 python3-dev python3-pip libpng-dev libtiff5-dev libjpeg-dev tzdata sed curl unzip autoconf libtool rsync libxml2-dev git git-lfs
-        wget https://apt.llvm.org/llvm.sh -O ./llvm.sh && sudo bash ./llvm.sh 10
         pip install --upgrade pip
         pip install --user -Iv setuptools==47.3.1 distro wheel auditwheel==4.0.0
         sudo chmod +x Util/BuildTools/BuildUE4Plugins.sh
