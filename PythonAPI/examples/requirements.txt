@@ -6,3 +6,5 @@ matplotlib
 open3d
 Pillow
 invertedai@git+https://github.com/inverted-ai/invertedai.git@develop
+fonttools>=4.61.0 # not directly required, pinned by Snyk to avoid a vulnerability
+tornado>=6.5.3 # not directly required, pinned by Snyk to avoid a vulnerability
